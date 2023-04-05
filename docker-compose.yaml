@@ -1,0 +1,14 @@
+version: '3.9'
+
+name: ahleen
+services:
+  account:
+    build:
+      context: ./account
+      dockerfile: Dockerfile
+      target: base
+    ports: [ "18081:18081" ]
+    volumes:
+    - ./account:/account
+    command: tail -f /dev/null
+
