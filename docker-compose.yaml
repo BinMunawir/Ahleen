@@ -6,9 +6,11 @@ services:
     build:
       context: ./account
       dockerfile: Dockerfile
-      target: base
+      target: final
     ports: [ "18081:18081" ]
-    volumes:
-    - ./account:/account
-    command: tail -f /dev/null
+    # volumes:
+    # - ./account:/ahleen/account
+    # command: tail -f /dev/null
+    # command: ls -al --color
+    command: dotnet account.dll
 

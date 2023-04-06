@@ -447,11 +447,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/account/account.csproj",
+      "projectUniqueName": "/ahleen/account/account.csproj",
       "projectName": "account",
-      "projectPath": "/account/account.csproj",
+      "projectPath": "/ahleen/account/account.csproj",
       "packagesPath": "/root/.nuget/packages/",
-      "outputPath": "/account/obj/",
+      "outputPath": "/ahleen/account/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/root/.nuget/NuGet/NuGet.Config"
