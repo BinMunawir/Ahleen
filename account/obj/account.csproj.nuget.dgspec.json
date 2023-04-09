@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/ahleen/account/account.csproj": {}
+    "/Users/aalrashidi/dotnet/ahleen/account/account.csproj": {}
   },
   "projects": {
-    "/ahleen/account/account.csproj": {
+    "/Users/aalrashidi/dotnet/ahleen/account/account.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/ahleen/account/account.csproj",
+        "projectUniqueName": "/Users/aalrashidi/dotnet/ahleen/account/account.csproj",
         "projectName": "account",
-        "projectPath": "/ahleen/account/account.csproj",
-        "packagesPath": "/root/.nuget/packages/",
-        "outputPath": "/ahleen/account/obj/",
+        "projectPath": "/Users/aalrashidi/dotnet/ahleen/account/account.csproj",
+        "packagesPath": "/Users/aalrashidi/.nuget/packages/",
+        "outputPath": "/Users/aalrashidi/dotnet/ahleen/account/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/root/.nuget/NuGet/NuGet.Config"
+          "/Users/aalrashidi/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
@@ -66,7 +66,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/7.0.202/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.202/RuntimeIdentifierGraph.json"
         }
       }
     }

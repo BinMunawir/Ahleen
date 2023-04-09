@@ -1,6 +1,4 @@
-
 using Account.Repositories;
-
 
 var builder = WebApplication.CreateBuilder(args);
 

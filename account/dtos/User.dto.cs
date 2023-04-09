@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Account.DTOs
 {
-    public class UserDTO
+    public record UserDTO
     {
 
         public string Guid { get; set; }
