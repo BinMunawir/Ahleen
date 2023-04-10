@@ -17,8 +17,8 @@ namespace Account.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<UserDTO>> RegisterUserAsync(UserDTO userDTO) {
-            return await new AccountUsecases(this.repo).RegisterUserAsync(userDTO);
+        public async Task<ActionResult<UserDTO>> RegisterUser(UserDTO userDTO) {
+            return await new AccountUsecases(this.repo).RegisterUser(userDTO);
         }
         [HttpGet]
         public ActionResult<List<UserDTO>> GetWallets() {

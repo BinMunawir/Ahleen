@@ -19,3 +19,5 @@ namespace Statement.DTOs
         public DateTime Date { get; set; }
     }
 }
+
+

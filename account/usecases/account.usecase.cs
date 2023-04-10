@@ -16,7 +16,7 @@ namespace Account.Usecases
             this.repo = repo;
         }
 
-        public async Task<UserDTO> RegisterUserAsync(UserDTO userDTO)
+        public async Task<UserDTO> RegisterUser(UserDTO userDTO)
         {
             userDTO.Guid = Guid.NewGuid().ToString();
             userDTO.IsActive = true;
