@@ -29,6 +29,9 @@ namespace Account.Repositories
         public UserDTO Get(string guid) {
             return this.Users.Where(u => u.Guid == guid).SingleOrDefault();
         }
+        public List<UserDTO> GetAll() {
+            return this.Users;
+        }
     }
 }
 

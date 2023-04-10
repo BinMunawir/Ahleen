@@ -10,4 +10,20 @@ services:
     ports: [ "18081:18081" ]
     # command: tail -f /dev/null
     command: dotnet account.dll
+  statement:
+    build:
+      context: ./statement
+      dockerfile: Dockerfile
+      target: final
+    ports: [ "18083:18083" ]
+    # command: tail -f /dev/null
+    command: dotnet statement.dll
+  payment:
+    build:
+      context: ./payment
+      dockerfile: Dockerfile
+      target: final
+    ports: [ "18082:18082" ]
+    # command: tail -f /dev/null
+    command: dotnet payment.dll
 

@@ -7,20 +7,24 @@ using Account.Usecases;
 namespace Account.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
-    public class Account : ControllerBase
+    [Route("/api/[controller]")]
+    public class Accounts : ControllerBase
     {
 
         private UserRepository repo;
-        public Account(UserRepository repo) {
+        public Accounts(UserRepository repo) {
             this.repo = repo;
         }
 
         [HttpPost]
-        public ActionResult<UserDTO> RegisterUser(UserDTO userDTO) {
-            return new AccountUsecases(this.repo).RegisterUser(userDTO);
+        public async Task<ActionResult<UserDTO>> RegisterUserAsync(UserDTO userDTO) {
+            return await new AccountUsecases(this.repo).RegisterUserAsync(userDTO);
         }
-
+        [HttpGet]
+        public ActionResult<List<UserDTO>> GetWallets() {
+            List<UserDTO> users = new AccountUsecases(this.repo).GetUsers();
+            return users;
+        }
         [HttpGet("{guid}")]
         public ActionResult<UserDTO> GetUser(string guid) {
             UserDTO user = new AccountUsecases(this.repo).GetUser(guid);
