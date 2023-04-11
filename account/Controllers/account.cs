@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Account.DTOs;
 using Account.Repositories;
 using Account.Usecases;
+using MassTransit;
 
 namespace Account.Controllers
 {
@@ -12,13 +13,15 @@ namespace Account.Controllers
     {
 
         private UserRepository repo;
-        public Accounts(UserRepository repo) {
+        private IBus bus;
+        public Accounts(UserRepository repo, IBus bus) {
             this.repo = repo;
+            this.bus = bus;
         }
 
         [HttpPost]
         public async Task<ActionResult<UserDTO>> RegisterUser(UserDTO userDTO) {
-            return await new AccountUsecases(this.repo).RegisterUser(userDTO);
+            return await new AccountUsecases(this.repo).RegisterUser(userDTO, this.bus);
         }
         [HttpGet]
         public ActionResult<List<UserDTO>> GetWallets() {

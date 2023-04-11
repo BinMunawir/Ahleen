@@ -8,6 +8,9 @@ services:
       dockerfile: Dockerfile
       target: final
     ports: [ "18081:18081" ]
+    restart: on-failure
+    depends_on:
+      - rabbitmq
     # command: tail -f /dev/null
     command: dotnet account.dll
   statement:
@@ -16,6 +19,9 @@ services:
       dockerfile: Dockerfile
       target: final
     ports: [ "18083:18083" ]
+    restart: on-failure
+    depends_on:
+      - rabbitmq
     # command: tail -f /dev/null
     command: dotnet statement.dll
   payment:
@@ -23,7 +29,20 @@ services:
       context: ./payment
       dockerfile: Dockerfile
       target: final
+    depends_on:
+      - rabbitmq
     ports: [ "18082:18082" ]
+    restart: on-failure
     # command: tail -f /dev/null
     command: dotnet payment.dll
+  rabbitmq:
+    image: rabbitmq:management-alpine
+    ports:
+            - '5672:5672'
+            - '15672:15672'
+    # volumes:
+    #     - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+    #     - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+
+
 

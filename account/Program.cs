@@ -1,4 +1,5 @@
 using Account.Repositories;
+using MassTransit;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,25 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<UserRepository>(new UserInMemoryRepository());
+
+builder.Services.AddMassTransit(x =>
+            {
+                x.AddConsumer<WalletCreatedConsumer>();
+                x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(config =>
+                {
+                    config.Host(new Uri("rabbitmq://rabbitmq"), h =>
+                    {
+                        h.Username("guest");
+                        h.Password("guest");
+                    });
+                    config.ReceiveEndpoint("CreatedWallets", oq =>
+                    {
+                        oq.PrefetchCount = 20;
+                        oq.UseMessageRetry(r => r.Interval(2, 100));
+                        oq.ConfigureConsumer<WalletCreatedConsumer>(provider);
+                    });
+                })); 
+            });
 
 var app = builder.Build();
 

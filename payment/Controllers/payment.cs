@@ -7,6 +7,7 @@ using Payment.Services;
 using System.Net.Http;
 using Newtonsoft.Json;
 using System.Text;
+using MassTransit;
 
 namespace Payment.Controllers
 {
@@ -17,14 +18,18 @@ namespace Payment.Controllers
 
         private WalletRepository repo;
         private PaymentGateway paymentGateway;
-        public Wallets(WalletRepository repo, PaymentGateway paymentGateway) {
+        private IBus bus;
+
+        public Wallets(WalletRepository repo, PaymentGateway paymentGateway, IBus bus) {
             this.repo = repo;
             this.paymentGateway = paymentGateway;
+            this.bus = bus;
+
         }
 
         [HttpPost]
-        public ActionResult<WalletDTO> OpenWallet(WalletDTO walletDTO) {
-            return new PaymentUsecases(this.repo, this.paymentGateway).OpenWallet(walletDTO);
+        public async Task<ActionResult<WalletDTO>> OpenWalletAsync(WalletDTO walletDTO) {
+            return await new PaymentUsecases(this.repo, this.paymentGateway).OpenWallet(walletDTO, bus);
         }
 
         [HttpPost, Route("topup")]

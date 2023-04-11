@@ -4,7 +4,10 @@ using Account.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
 using System.Text;
+using RabbitMQ.Client;
 using Newtonsoft.Json;
+using MassTransit;
+using events;
 
 namespace Account.Usecases
 {
@@ -16,16 +19,15 @@ namespace Account.Usecases
             this.repo = repo;
         }
 
-        public async Task<UserDTO> RegisterUser(UserDTO userDTO)
+        public async Task<UserDTO> RegisterUser(UserDTO userDTO, IBus bus)
         {
             userDTO.Guid = Guid.NewGuid().ToString();
             userDTO.IsActive = true;
             userDTO.CreatedAt = DateTime.Now;
             userDTO.Status = "pending";
 
-            await createWallet(userDTO);
+            await createWallet(userDTO, bus);
 
-            userDTO.Status = "Active";
             userDTO = this.repo.Create(userDTO);
             return userDTO;
         }
@@ -45,17 +47,9 @@ namespace Account.Usecases
             return this.repo.GetAll();
         }
 
-        private static async Task createWallet(UserDTO userDTO)
+        private static async Task createWallet(UserDTO userDTO, IBus bus)
             {
-                var client = new HttpClient();
-                var body = new Dictionary<string, Object>();
-                body.Add("UserID", userDTO.Guid);
-                var request = await client.PostAsync(
-                    new Uri("http://payment:18082/api/wallets"),
-                    new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json")
-                );
-                string resultContent = await request.Content.ReadAsStringAsync();
-                if ((int)request.StatusCode > 299) throw new Exception("couldn't make the wallet>>>\n " + resultContent);
+                await (await bus.GetSendEndpoint(new Uri("rabbitmq://rabbitmq/RegisteredUsers"))).Send(new UserRegistered(){UserID=userDTO.Guid});
             }
 
     }

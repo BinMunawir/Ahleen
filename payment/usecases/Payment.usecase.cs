@@ -2,7 +2,8 @@
 using Payment.Repositories;
 using Payment.DTOs;
 using Payment.Services;
-
+using MassTransit;
+using events;
 
 namespace Payment.Usecases
 {
@@ -16,7 +17,7 @@ namespace Payment.Usecases
             this.paymentGateway = paymentGateway;
         }
 
-        public WalletDTO OpenWallet(WalletDTO walletDTO) {
+        public async Task<WalletDTO> OpenWallet(WalletDTO walletDTO, IBus bus) {
             walletDTO.Guid = Guid.NewGuid().ToString();
             walletDTO.Amount = 0;
             walletDTO.IsActive = true;
@@ -24,8 +25,14 @@ namespace Payment.Usecases
             walletDTO.Currency = "SAR";
 
             walletDTO = this.repo.Create(walletDTO);
+            await activateUser(walletDTO, bus);
             return walletDTO;
         }
+
+        private static async Task activateUser(WalletDTO walletDTO, IBus bus)
+            {
+                await (await bus.GetSendEndpoint(new Uri("rabbitmq://rabbitmq/CreatedWallets"))).Send(new WalletCreated(){UserID=walletDTO.UserID});
+            }
 
         public WalletDTO TransferFunds(string senderWalletID, string receiverWalletID, int amount) {
             WalletDTO senderWallet = this.GetWallet(senderWalletID);

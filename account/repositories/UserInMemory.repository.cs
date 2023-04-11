@@ -23,6 +23,7 @@ namespace Account.Repositories
 
             oldUser.FirstName = user.FirstName;
             oldUser.LastName = user.LastName;
+            oldUser.IsActive = user.IsActive;
             this.Users.Add(oldUser);
             return oldUser;
         }
