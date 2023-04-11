@@ -11,7 +11,6 @@ services:
     restart: on-failure
     depends_on:
       - rabbitmq
-    # command: tail -f /dev/null
     command: dotnet account.dll
   statement:
     build:
@@ -22,7 +21,6 @@ services:
     restart: on-failure
     depends_on:
       - rabbitmq
-    # command: tail -f /dev/null
     command: dotnet statement.dll
   payment:
     build:
@@ -33,16 +31,25 @@ services:
       - rabbitmq
     ports: [ "18082:18082" ]
     restart: on-failure
-    # command: tail -f /dev/null
     command: dotnet payment.dll
+  mongodb:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    # volumes:
+    #   - mongodb_data:/data/db
   rabbitmq:
     image: rabbitmq:management-alpine
     ports:
             - '5672:5672'
             - '15672:15672'
     # volumes:
-    #     - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
-    #     - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+    #     - rabbitmq_data:/var/lib/rabbitmq/
+    #     - rabbitmq_data:/var/log/rabbitmq
 
+volumes:
+  mongodb_data:
+  rabbitmq_data:
+  rabbitmq_log:
 
 

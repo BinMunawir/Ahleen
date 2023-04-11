@@ -6,8 +6,8 @@ namespace Account.Usecases {
     interface AccountFacad
     {
         public Task<UserDTO> RegisterUser(UserDTO userDTO, IBus bus); 
-        public UserDTO UpdateProfile(string guid, UserDTO userDTO);
-        public UserDTO GetUser(string guid);
-        public List<UserDTO> GetUsers();
+        public Task<UserDTO> UpdateProfile(string guid, UserDTO userDTO);
+        public Task<UserDTO> GetUser(string guid);
+        public Task<List<UserDTO>> GetUsers();
     }
 }

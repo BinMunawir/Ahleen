@@ -1,11 +1,15 @@
 
 using System.ComponentModel.DataAnnotations;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace Account.DTOs
 {
     public record UserDTO
     {
-
+        [BsonId]
         public string Guid { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }

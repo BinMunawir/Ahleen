@@ -31,14 +31,14 @@ class WalletCreatedConsumer : IConsumer<WalletCreated> {
     public async Task Consume(ConsumeContext<WalletCreated> context)
     {
         var jsonMessage = JsonConvert.SerializeObject(context.Message);
-        Console.WriteLine($"UserRegistered message: {jsonMessage}");
+        Console.WriteLine($"WalletCreated message: {jsonMessage}");
 
 
         var walletCreated = JsonConvert.DeserializeObject<WalletCreated>(jsonMessage);
-        var userDTO = new AccountUsecases(this.repo).GetUser(walletCreated.UserID);
+        var userDTO = await new AccountUsecases(this.repo).GetUser(walletCreated.UserID);
         userDTO.Status = "Active";
         
-        new AccountUsecases(this.repo).UpdateProfile(walletCreated.UserID, userDTO);
+        await new AccountUsecases(this.repo).UpdateProfile(walletCreated.UserID, userDTO);
 
     }
 }

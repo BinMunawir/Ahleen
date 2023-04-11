@@ -28,23 +28,23 @@ namespace Account.Usecases
 
             await createWallet(userDTO, bus);
 
-            userDTO = this.repo.Create(userDTO);
+            userDTO = await this.repo.Create(userDTO);
             return userDTO;
         }
 
        
-        public UserDTO UpdateProfile(string guid, UserDTO userDTO) {
+        public async Task<UserDTO> UpdateProfile(string guid, UserDTO userDTO) {
             
-            UserDTO user = this.repo.Update(guid, userDTO);
+            UserDTO user = await this.repo.Update(guid, userDTO);
             return user;
 
         }
-        public UserDTO GetUser(string guid) {
-            UserDTO user = this.repo.Get(guid);
+        public async Task<UserDTO> GetUser(string guid) {
+            UserDTO user = await this.repo.Get(guid);
             return user;
         }
-        public List<UserDTO> GetUsers() {
-            return this.repo.GetAll();
+        public async Task<List<UserDTO>> GetUsers() {
+            return (await this.repo.GetAll());
         }
 
         private static async Task createWallet(UserDTO userDTO, IBus bus)
